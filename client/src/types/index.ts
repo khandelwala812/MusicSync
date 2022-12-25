@@ -1,1 +1,3 @@
-export interface Song {}
+export interface ISong {
+    term: string
+}

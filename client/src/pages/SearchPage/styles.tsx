@@ -15,9 +15,11 @@ export const SearchContainer = styled.div`
     gap: 32px;
 `
 
-export const Title = styled.text`
+export const Title = styled.h1`
     font-size: 64px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
 `
 
 export const SearchBar = styled.input`
@@ -29,3 +31,5 @@ export const SearchBar = styled.input`
     padding: 4px;
     outline: none;
 `
+
+export const SongContainer = styled.div``
