@@ -7,6 +7,7 @@ import tracksApi from "../../api/tracks"
 const SearchPage: FC = () => {
     const [query, setQuery] = useState("")
     const [songs, setSongs] = useState<ISong[]>()
+    const [selectedSong, setSelectedSong] = useState<string>()
 
     const fetchSongs = async () => {
         const response = await tracksApi.getSongs(query)
@@ -27,9 +28,11 @@ const SearchPage: FC = () => {
                 placeholder="Song name" 
                 onChange={e => setQuery(e.target.value)} 
             />
-            {songs?.length && songs.map((song: ISong) => (
-                <SC.SongContainer>{song.term}</SC.SongContainer>
-            ))}
+            <SC.SongsContainer>
+                {songs?.length && songs.map((song: ISong) => (
+                    <SC.Song onClick={() => setSelectedSong(song.term)}>{song.term}</SC.Song>
+                ))}
+            </SC.SongsContainer>
         </SC.SearchContainer>
     </SC.Container>
 }

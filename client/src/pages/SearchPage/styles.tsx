@@ -32,4 +32,14 @@ export const SearchBar = styled.input`
     outline: none;
 `
 
-export const SongContainer = styled.div``
+export const SongsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+`
+
+export const Song = styled.button`
+    background: white;
+    flex: 1;
+    border: none;
+`

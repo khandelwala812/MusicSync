@@ -1,5 +1,5 @@
 # dependencies
 /node_modules
 
-# API keys
-/src/config/*.ts
+# environment variables
+/src/config/constants.ts
