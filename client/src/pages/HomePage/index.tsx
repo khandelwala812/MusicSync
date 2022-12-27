@@ -1,10 +1,12 @@
 import React, { FC, useState, useEffect } from "react"
+import { Route } from "react-router-dom"
 
 import * as SC from './styles'
 import { ISong } from "../../types"
 import tracksApi from "../../api/tracks"
+import routes from "../../config/routes"
 
-const SearchPage: FC = () => {
+const HomePage: FC = () => {
     const [query, setQuery] = useState("")
     const [songs, setSongs] = useState<ISong[]>()
     const [selectedSong, setSelectedSong] = useState<string>()
@@ -12,8 +14,11 @@ const SearchPage: FC = () => {
     const fetchSongs = async () => {
         const response = await tracksApi.getSongs(query)
         const loadedSongs = response?.data?.hints
-        console.log(loadedSongs)
         setSongs(loadedSongs)
+    }
+
+    const handleSelect = (song: ISong) => () => {
+        setSelectedSong(song.term)
     }
 
     useEffect(() => {
@@ -30,11 +35,16 @@ const SearchPage: FC = () => {
             />
             <SC.SongsContainer>
                 {songs?.length && songs.map((song: ISong) => (
-                    <SC.Song onClick={() => setSelectedSong(song.term)}>{song.term}</SC.Song>
+                    <Route
+                        path={routes.SONG}
+                        element={<SC.Song>{song.term}</SC.Song>}
+                        action={handleSelect(song)}
+                    />
                 ))}
+                {!query && <SC.NoResultsText>No results for "{query}"</SC.NoResultsText>}
             </SC.SongsContainer>
         </SC.SearchContainer>
     </SC.Container>
 }
 
-export default SearchPage
+export default HomePage
