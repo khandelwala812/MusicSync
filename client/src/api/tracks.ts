@@ -1,15 +1,15 @@
 import client from "./client"
-import { ISong } from "../types"
+import { ISong, ISongResult } from "../types"
 import { SHAZAM_API_KEY } from "../config/constants"
 
-interface IResponseBody {
-    hints: ISong[]
+interface ISongResultsResponse {
+    hints: ISongResult[]
 }
 
 const getSongs = (query: string) => {
     if (!query) return
 
-    return client.get<IResponseBody>(
+    return client.get<ISongResultsResponse>(
         "/auto-complete", 
         { term: query, locale: "en-US" }, 
         {
@@ -20,4 +20,28 @@ const getSongs = (query: string) => {
         })
 }
 
-export default { getSongs }
+
+interface IPotentialSongsResponse {
+    tracks: {
+        hits: ISong[]
+    }
+}
+
+const getPotentialSongs = async (songName: string) => {
+    const response = await client.get<IPotentialSongsResponse>(
+        "/search", 
+        { term: songName, locale: "en-US" },
+        {
+            headers: {
+                'X-RapidAPI-Key': SHAZAM_API_KEY,
+                'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+            }
+        })
+    
+    if (response?.data) {
+        const potentialSongs = response.data.tracks.hits
+        return potentialSongs
+    }
+}
+
+export default { getSongs, getPotentialSongs }
